@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "noEmitOnError": true,
+        "noEmitHelpers": true,
+        "noUnusedLocals": true,
+        "experimentalDecorators": true,
+        "noLib": false,
+        "sourceMap": false,
+        "target": "es5",
+        "module": "commonjs",
+        "outDir": "bin/dist",
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "rootDir": ".",
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "./node_modules/tns-core-modules/*",
+                "./node_modules/*"
+            ]
+        }
+    }, 
+    "exclude": [
+        "node_modules", 
+        "demo", 
+        "bin"
+    ]
+}
