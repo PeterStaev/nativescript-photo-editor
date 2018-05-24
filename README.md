@@ -4,7 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dt/nativescript-photo-editor.svg)](https://www.npmjs.com/package/nativescript-photo-editor)
 [![npm](https://img.shields.io/npm/v/nativescript-photo-editor.svg)](https://www.npmjs.com/package/nativescript-photo-editor)
 
-A NativeScript DropDown widget. The DropDown displays items from which the user can select one. For iOS it wraps up a [UILabel](https://developer.apple.com/reference/uikit/uilabel) with an `inputView` set to an [UIPickerView](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIPickerView_Class/index.html) which displays the items. For Android it wraps up the [Spinner](http://developer.android.com/reference/android/widget/Spinner.html) widget.
+A NativeScript photo editor. It allows you to crop, draw something on your image or add some text. 
 
 ## Screenshot
 _COMMING SOON!_
