@@ -1,0 +1,12 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" class="page">
+    <Page.actionBar>
+        <ActionBar title="Photo Editor" icon="" class="action-bar">
+        </ActionBar>
+    </Page.actionBar>
+
+    <GridLayout rows="*, auto, *">
+        <Image row="0" src="~/test-image.jpg" stretch="aspectFill" />
+        <Button row="1" class="btn btn-primary btn-rounded-sm" tap="editImage" text="Edit Image" />
+        <Image id="result-image" row="2" stretch="aspectFill" />
+    </GridLayout>
+</Page>
