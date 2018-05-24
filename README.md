@@ -44,3 +44,7 @@ This will run the plain NativeScript demo project on iOS. If you want to run it 
 `bitcoin:14fjysmpwLvSsAskvLASw6ek5XfhTzskHC`
 
 ![Donate](https://www.tangrainc.com/qr.png)
+
+## Credits
+* For iOS this uses the `iOSPhotoEditor` pod (https://cocoapods.org/pods/iOSPhotoEditor)
+* For Android uses adjusted code with added cropping from https://github.com/eventtus/photo-editor-android 
