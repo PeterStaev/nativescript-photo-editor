@@ -7,7 +7,7 @@
 A NativeScript photo editor. It allows you to crop, draw something on your image or add some text. 
 
 ## Screenshot
-_COMMING SOON!_
+![Screenshot of iOS](https://raw.githubusercontent.com/PeterStaev/nativescript-photo-editor/master/docs/editor-ios.gif)
 
 ## Installation
 Run the following command from the root of your project:
@@ -20,10 +20,30 @@ This command automatically installs the necessary files, as well as stores nativ
 There is no additional configuration needed!
 
 ## API
-_COMMING SOON!_
+### Methods
+* **editPhoto(options): Promise**  
+Opens the photo editor with the given options. If the user accepts the edited image the promise is resolved with an instance of the new `ImageSource`. If the user cancels the edit the promise will be rejected. 
 
 ## Usage
-_COMMING SOON!_
+Simply create an instance of the photo editor, pass the image you want to edit and which editor controls you **don't** want to use (if any) an that's it!
+```ts
+import { PhotoEditor, PhotoEditorControl } from "nativescript-photo-editor";
+
+const photoEditor = new PhotoEditor();
+
+photoEditor.editPhoto({
+    imageSource: originalImage.imageSource,
+    hiddenControls: [
+        PhotoEditorControl.Save,
+        PhotoEditorControl.Crop,
+    ],
+}).then((newImage: ImageSource) => {
+    // Here you can save newImage, send it to your backend or simply display it in your app
+    resultImage.imageSource = newImage;
+}).catch((e) => {
+    console.error(e);
+});
+```
 
 ## Usage in Angular
 There is no difference in usage between Core and Angular. So you can refer to the above usage examples on how to use this plugin with Angular. 

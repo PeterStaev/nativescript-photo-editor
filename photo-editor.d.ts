@@ -10,3 +10,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ***************************************************************************** */
+import { ImageSource } from "image-source";
+
+export const enum PhotoEditorControl {
+    Crop = 0,
+    // Sticker = 1,
+    Draw = 2,
+    Text = 3,
+    Save = 4,
+    // Share = 5,
+    Clear = 6,
+}
+
+export interface EditPhotoOptions {
+    imageSource: ImageSource;
+    hiddenControls?: PhotoEditorControl[];
+}
+
+export class PhotoEditor {
+    public editPhoto(options: EditPhotoOptions): Promise<ImageSource>;
+}

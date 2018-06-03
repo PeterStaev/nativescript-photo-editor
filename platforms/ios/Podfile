@@ -1,0 +1,11 @@
+platform :ios, '9.0'
+pod 'iOSPhotoEditor', :git => 'https://github.com/PeterStaev/photo-editor.git', :branch => 'nativescript'
+# pod 'iOSPhotoEditor', :path => '~/Documents/MiscProjects/photo-editor-ios'
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['SWIFT_VERSION'] = '3.0'
+      end
+    end
+  end

@@ -24,9 +24,7 @@
     "tslint": "tslint --project tsconfig.json",
     "tsc": "tsc --project tsconfig.json",
     "demo-ios": "grunt build && cd demo && tns run ios",
-    "demo-android": "grunt build && cd demo && tns run android",
-    "demo-ng-ios": "grunt build && cd demo-ng && tns run ios",
-    "demo-ng-android": "grunt build && cd demo-ng && tns run android"
+    "demo-android": "grunt build && cd demo && tns run android"
   },
   "keywords": [
     "NativeScript",

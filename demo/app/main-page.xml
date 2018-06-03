@@ -5,8 +5,8 @@
     </Page.actionBar>
 
     <GridLayout rows="*, auto, *">
-        <Image row="0" src="~/test-image.jpg" stretch="aspectFill" />
+        <Image id="orig-image" row="0" src="~/test-image.jpg" stretch="aspectFit" />
         <Button row="1" class="btn btn-primary btn-rounded-sm" tap="editImage" text="Edit Image" />
-        <Image id="result-image" row="2" stretch="aspectFill" />
+        <Image id="result-image" class="m-b-5" row="2" stretch="aspectFit" />
     </GridLayout>
 </Page>
