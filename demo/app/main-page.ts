@@ -1,6 +1,6 @@
 import { NavigatedData, Page } from "ui/page";
 import { Image } from "ui/image";
-import { ImageSource } from "image-source";
+import { ImageSource, fromFileOrResource, fromFile } from "image-source";
 import * as frame from "ui/frame";
 
 import { PhotoEditor, PhotoEditorControl } from "nativescript-photo-editor";
@@ -15,11 +15,14 @@ export function navigatingTo(args: NavigatedData) {
 
 export function editImage() {
     const photoEditor = new PhotoEditor();
-
+    
     photoEditor.editPhoto({
-        imageSource: originalImage.imageSource,
+        imageSource: fromFileOrResource("~/test-image.jpg"), // originalImage.imageSource,
         hiddenControls: [
-            PhotoEditorControl.Save
+            // PhotoEditorControl.Save,
+            // PhotoEditorControl.Clear,
+            // PhotoEditorControl.Draw,
+            // PhotoEditorControl.Text,
         ],
     }).then((newImage: ImageSource) => {
         resultImage.imageSource = newImage;

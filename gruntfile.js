@@ -29,15 +29,15 @@
             }
         },
         tslint:
-        {
-            build:
             {
-                src: localConfig.typeScriptSrc.concat(["!typings/*.*"]),
-                options: {
-                    configuration: grunt.file.readJSON("./tslint.json")
-                }
-            }
-        },
+                build:
+                    {
+                        src: localConfig.typeScriptSrc.concat(["!typings/*.*"]),
+                        options: {
+                            configuration: grunt.file.readJSON("./tslint.json")
+                        }
+                    }
+            },
         copy: {
             declarations: {
                 files: [{ expand: true, src: localConfig.typeScriptDeclarations, dest: localConfig.outDir }]
@@ -65,10 +65,16 @@
                     }
                 }
             },
-            // android_aar: {
-            //     src: "android/inappbilling/inappbillinghelper/build/outputs/aar/inappbillinghelper-release.aar",
-            //     dest: localConfig.outDir + "platforms/android/inappbillinghelper-release.aar"
-            // }
+            android_aar: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ["android/**/*-release.aar"],
+                        dest: localConfig.outDir + "platforms/android/",
+                    }
+                ],
+            },
         },
         exec: {
             tsCompile: "npm run tsc -- --outDir " + localConfig.outDir,
@@ -92,37 +98,37 @@
             },
             "ci-webpack-demo": {
                 cmd: function (platform, demoSuffix) {
-                    return "cd demo" + (demoSuffix != "" ? "-" + demoSuffix : "")+ " && npm install && tns build " + platform + " --bundle --env.uglify --env.snapshot";
+                    return "cd demo" + (demoSuffix != "" ? "-" + demoSuffix : "") + " && npm install && tns build " + platform + " --bundle --env.uglify --env.snapshot";
                 }
             },
-            // build_android_aar: {
-            //     cmd: "./gradlew build",
-            //     cwd: "android/inappbilling/"
-            // },
+            build_android_aar: {
+                cmd: "./gradlew build",
+                cwd: "android/"
+            },
             npm_publish: {
                 cmd: "npm publish",
                 cwd: localConfig.outDir
-            },             
+            },
         }
     });
 
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-exec");
-  
+
     grunt.registerTask("compile", function () {
         var tasks = [
             "clean:build",
             "exec:tsCompile",
             "copy"
         ];
-        // if (!process.env.iOS) {
-        //     tasks.splice(2, 0, "exec:build_android_aar");
-        // }
-        
+        if (!process.env.iOS) {
+            tasks.splice(2, 0, "exec:build_android_aar");
+        }
+
         grunt.task.run(tasks);
     });
-    
+
     grunt.registerTask("build", [
         "exec:tslint",
         "compile",
