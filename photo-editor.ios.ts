@@ -25,7 +25,7 @@ export class PhotoEditor implements PhotoEditorBase {
 
     public editPhoto(options: EditPhotoOptions) {
         const viewController = PhotoEditorViewController.alloc().initWithNibNameBundle("PhotoEditorViewController", this._bundle);
-        const nativeHiddenControls: control[] = [control.Sticker, control.Share];
+        const nativeHiddenControls: control[] = [control.Sticker, control.Share, control.Save];
 
         options.hiddenControls = options.hiddenControls || [];
         
@@ -43,9 +43,9 @@ export class PhotoEditor implements PhotoEditorBase {
                     nativeHiddenControls.push(control.Text);
                     break;
 
-                case PhotoEditorControl.Save:
-                    nativeHiddenControls.push(control.Save);
-                    break;
+                // case PhotoEditorControl.Save:
+                //     nativeHiddenControls.push(control.Save);
+                //     break;
 
                 case PhotoEditorControl.Clear:
                     nativeHiddenControls.push(control.Clear);

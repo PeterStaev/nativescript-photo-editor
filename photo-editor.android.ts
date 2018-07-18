@@ -42,7 +42,7 @@ export class PhotoEditor implements PhotoEditorBase {
             intent.putExtra("isCropIn", options.hiddenControls.indexOf(PhotoEditorControl.Crop) === -1);
             intent.putExtra("isDrawIn", options.hiddenControls.indexOf(PhotoEditorControl.Draw) === -1);
             intent.putExtra("isTextIn", options.hiddenControls.indexOf(PhotoEditorControl.Text) === -1);
-            intent.putExtra("isSaveIn", options.hiddenControls.indexOf(PhotoEditorControl.Save) === -1);
+            intent.putExtra("isSaveIn", false);
             intent.putExtra("isClearIn", options.hiddenControls.indexOf(PhotoEditorControl.Clear) === -1);
             application.android.foregroundActivity.startActivityForResult(intent, PhotoEditor.EDIT_PHOTO_REQUEST);    
         });

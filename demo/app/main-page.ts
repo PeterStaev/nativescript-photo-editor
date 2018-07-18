@@ -15,9 +15,12 @@ export function navigatingTo(args: NavigatedData) {
 
 export function editImage() {
     const photoEditor = new PhotoEditor();
-    
+    const imageSource = fromFileOrResource("~/test-image.jpg");
+
+    console.log("ORIG IMAGE: ", imageSource.height, imageSource.width)
+
     photoEditor.editPhoto({
-        imageSource: fromFileOrResource("~/test-image.jpg"), // originalImage.imageSource,
+        imageSource: imageSource, // originalImage.imageSource,
         hiddenControls: [
             // PhotoEditorControl.Save,
             // PhotoEditorControl.Clear,
@@ -25,6 +28,7 @@ export function editImage() {
             // PhotoEditorControl.Text,
         ],
     }).then((newImage: ImageSource) => {
+        console.log("NEW IMAGE: ", newImage.height, newImage.width)
         resultImage.imageSource = newImage;
     }).catch((e) => {
         console.error(e);

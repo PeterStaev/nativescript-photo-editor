@@ -15,8 +15,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':photoeditorsdk')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
+//    implementation 'com.android.support:appcompat-v7:27.1.1'
+//    implementation 'com.nineoldandroids:library:2.4.0'
 //    implementation 'fr.avianey.com.viewpagerindicator:library:2.4.1@aar'
 }

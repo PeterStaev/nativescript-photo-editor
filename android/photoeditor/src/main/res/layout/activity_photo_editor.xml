@@ -17,11 +17,11 @@
         <!--app:umanoOverlay="true"-->
         <!--app:umanoShadowHeight="4dp">-->
 
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="#000000"-->
-            <!--android:gravity="center">-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:gravity="center">
 
             <RelativeLayout
                 android:id="@+id/parent_image_rl"
@@ -35,7 +35,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/edited_image_description"/>
 
                 <com.ahmedadeltito.photoeditorsdk.BrushDrawingView
                     android:id="@+id/drawing_view"
@@ -45,7 +46,7 @@
                     android:layout_alignTop="@+id/photo_edit_iv"
                     android:layout_centerInParent="true"
                     android:visibility="gone" />
-
+                    
             </RelativeLayout>
 
             <TextView
@@ -66,23 +67,23 @@
                 android:textSize="20sp"
                 android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/erase_drawing_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_toStartOf="@+id/done_drawing_tv"
-                android:padding="10dp"
-                android:shadowColor="#000000"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="2"
-                android:text="@string/erase"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:visibility="gone" />
+            <!--<TextView-->
+                <!--android:id="@+id/erase_drawing_tv"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginEnd="20dp"-->
+                <!--android:layout_marginStart="20dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_toStartOf="@+id/done_drawing_tv"-->
+                <!--android:padding="10dp"-->
+                <!--android:shadowColor="#000000"-->
+                <!--android:shadowDx="1"-->
+                <!--android:shadowDy="1"-->
+                <!--android:shadowRadius="2"-->
+                <!--android:text="@string/erase"-->
+                <!--android:textColor="#FFFFFF"-->
+                <!--android:textSize="20sp"-->
+                <!--android:visibility="gone" />-->
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/drawing_view_color_picker_recycler_view"
@@ -122,6 +123,15 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/crop_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:text="@string/ic_crop"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/add_pencil_tv"
@@ -167,65 +177,38 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/bottom_shadow"
                 android:layout_alignTop="@+id/bottom_shadow"
-                android:paddingRight="26dp">
+                android:paddingEnd="26dp">
 
                 <TextView
                     android:id="@+id/save_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/save_text_tv"
-                    android:layout_alignEnd="@+id/save_text_tv"
                     android:layout_centerVertical="true"
                     android:gravity="center"
                     android:text="@string/ic_save"
                     android:textColor="#FFFFFF"
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:id="@+id/save_text_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/save_tv"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="4dp"
+                    android:textSize="25sp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginStart="20dp"
-                    android:text="@string/save"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp" />
+                    android:layout_marginStart="20dp" />
 
                 <TextView
                     android:id="@+id/clear_all_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/clear_all_text_tv"
-                    android:layout_alignEnd="@+id/clear_all_text_tv"
+                    android:layout_toEndOf="@+id/save_tv"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="4dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:gravity="center"
                     android:text="@string/ic_clear_all"
                     android:textColor="#FFFFFF"
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:id="@+id/clear_all_text_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/clear_all_tv"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_toEndOf="@+id/save_tv"
-                    android:text="@string/clear_all"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp" />
+                    android:textSize="25sp"/>
 
                 <TextView
                     android:id="@+id/undo_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/undo_text_tv"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="4dp"
@@ -234,20 +217,6 @@
                     android:text="@string/ic_clear_all"
                     android:textColor="#FFFFFF"
                     android:textSize="25sp"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/undo_text_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/clear_all_tv"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_toEndOf="@+id/clear_all_tv"
-                    android:text="@string/undo"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
                     android:visibility="gone" />
 
                 <TextView
@@ -283,7 +252,7 @@
 
             </RelativeLayout>
 
-        <!--</RelativeLayout>-->
+        </RelativeLayout>
 
         <!--<RelativeLayout-->
             <!--android:id="@+id/image_emoji_bottom_sheet"-->

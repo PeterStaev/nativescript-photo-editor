@@ -1,11 +1,19 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tangrainc.photoeditor">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application>
-        
+
         <activity
             android:name="com.tangrainc.photoeditor.PhotoEditorActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat" />
 
     </application>
 </manifest>

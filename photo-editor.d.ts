@@ -17,7 +17,7 @@ export const enum PhotoEditorControl {
     // Sticker = 1,
     Draw = 2,
     Text = 3,
-    Save = 4,
+    // Save = 4,
     // Share = 5,
     Clear = 6,
 }

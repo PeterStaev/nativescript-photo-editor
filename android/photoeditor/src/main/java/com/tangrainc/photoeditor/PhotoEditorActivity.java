@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 //import android.support.v4.app.Fragment;
@@ -32,8 +33,11 @@ import com.ahmedadeltito.photoeditorsdk.BrushDrawingView;
 import com.ahmedadeltito.photoeditorsdk.OnPhotoEditorSDKListener;
 import com.ahmedadeltito.photoeditorsdk.PhotoEditorSDK;
 import com.ahmedadeltito.photoeditorsdk.ViewType;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageActivity;
 //import com.viewpagerindicator.PageIndicator;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,9 +46,11 @@ import java.util.Date;
 public class PhotoEditorActivity extends AppCompatActivity implements View.OnClickListener, OnPhotoEditorSDKListener {
 
     private final String TAG = "PhotoEditorActivity";
+
+    private ImageView photoEditImageView;
     private RelativeLayout parentImageRelativeLayout;
     private RecyclerView drawingViewColorPickerRecyclerView;
-    private TextView undoTextView, undoTextTextView, doneDrawingTextView, eraseDrawingTextView;
+    private TextView doneDrawingTextView;
 //    private SlidingUpPanelLayout mLayout;
 //    private Typeface emojiFont;
     private View topShadow;
@@ -54,6 +60,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
     private ArrayList<Integer> colorPickerColors;
     private int colorCodeTextView = -1;
     private PhotoEditorSDK photoEditorSDK;
+    private String selectedImagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,33 +69,29 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
 
         Bundle extras = getIntent().getExtras();
 
-        String selectedImagePath = extras.getString("selectedImagePath");
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 1;
-        Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath, options);
+        selectedImagePath = extras.getString("selectedImagePath");
 
-        Typeface newFont = Typeface.createFromAsset(getAssets(), "Eventtus-Icons.ttf");
+        Typeface iconFont = Typeface.createFromAsset(getAssets(), "photo-editor-icons.ttf");
 //        emojiFont = Typeface.createFromAsset(getAssets(), "emojione-android.ttf");
 
         BrushDrawingView brushDrawingView = findViewById(R.id.drawing_view);
         drawingViewColorPickerRecyclerView = findViewById(R.id.drawing_view_color_picker_recycler_view);
         parentImageRelativeLayout = findViewById(R.id.parent_image_rl);
         TextView closeTextView = findViewById(R.id.close_tv);
+        TextView cropTextView = findViewById(R.id.crop_tv);
         TextView addTextView = findViewById(R.id.add_text_tv);
         TextView addPencil = findViewById(R.id.add_pencil_tv);
         RelativeLayout deleteRelativeLayout = findViewById(R.id.delete_rl);
         TextView deleteTextView = findViewById(R.id.delete_tv);
 //        TextView addImageEmojiTextView = findViewById(R.id.add_image_emoji_tv);
         TextView saveTextView = findViewById(R.id.save_tv);
-        TextView saveTextTextView = findViewById(R.id.save_text_tv);
-        undoTextView = findViewById(R.id.undo_tv);
-        undoTextTextView = findViewById(R.id.undo_text_tv);
+//        undoTextView = findViewById(R.id.undo_tv);
+//        undoTextTextView = findViewById(R.id.undo_text_tv);
         doneDrawingTextView = findViewById(R.id.done_drawing_tv);
-        eraseDrawingTextView = findViewById(R.id.erase_drawing_tv);
+//        eraseDrawingTextView = findViewById(R.id.erase_drawing_tv);
         TextView clearAllTextView = findViewById(R.id.clear_all_tv);
-        TextView clearAllTextTextView = findViewById(R.id.clear_all_text_tv);
         TextView goToNextTextView = findViewById(R.id.go_to_next_screen_tv);
-        ImageView photoEditImageView = findViewById(R.id.photo_edit_iv);
+        photoEditImageView = findViewById(R.id.photo_edit_iv);
 //        mLayout = findViewById(R.id.sliding_layout);
         topShadow = findViewById(R.id.top_shadow);
         topShadowRelativeLayout = findViewById(R.id.top_parent_rl);
@@ -98,22 +101,23 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
 //        ViewPager pager = findViewById(R.id.image_emoji_view_pager);
 //        PageIndicator indicator = findViewById(R.id.image_emoji_indicator);
 
-        photoEditImageView.setImageBitmap(bitmap);
+        setImage(selectedImagePath);
 
         // Set icon font
-        closeTextView.setTypeface(newFont);
-        addTextView.setTypeface(newFont);
-        addPencil.setTypeface(newFont);
+        closeTextView.setTypeface(iconFont);
+        cropTextView.setTypeface(iconFont);
+        addTextView.setTypeface(iconFont);
+        addPencil.setTypeface(iconFont);
 //        addImageEmojiTextView.setTypeface(newFont);
-        saveTextView.setTypeface(newFont);
-        undoTextView.setTypeface(newFont);
-        clearAllTextView.setTypeface(newFont);
-        goToNextTextView.setTypeface(newFont);
-        deleteTextView.setTypeface(newFont);
+        saveTextView.setTypeface(iconFont);
+//        undoTextView.setTypeface(iconFont);
+        clearAllTextView.setTypeface(iconFont);
+        goToNextTextView.setTypeface(iconFont);
+        deleteTextView.setTypeface(iconFont);
 
         // Hide disabled controls
         if (!extras.getBoolean("isCropIn")) {
-            // TODO
+            cropTextView.setVisibility(View.GONE);
         }
         if (!extras.getBoolean("isDrawIn")) {
             addPencil.setVisibility(View.GONE);
@@ -123,11 +127,9 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         }
         if (!extras.getBoolean("isSaveIn")) {
             saveTextView.setVisibility(View.GONE);
-            saveTextTextView.setVisibility(View.GONE);
         }
         if (!extras.getBoolean("isClearIn")) {
             clearAllTextView.setVisibility(View.GONE);
-            clearAllTextTextView.setVisibility(View.GONE);
         }
 
 //        final List<Fragment> fragmentsList = new ArrayList<>();
@@ -170,16 +172,15 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
 
         closeTextView.setOnClickListener(this);
 //        addImageEmojiTextView.setOnClickListener(this);
+        cropTextView.setOnClickListener(this);
         addTextView.setOnClickListener(this);
         addPencil.setOnClickListener(this);
         saveTextView.setOnClickListener(this);
-        saveTextTextView.setOnClickListener(this);
-        undoTextView.setOnClickListener(this);
-        undoTextTextView.setOnClickListener(this);
+//        undoTextView.setOnClickListener(this);
+//        undoTextTextView.setOnClickListener(this);
         doneDrawingTextView.setOnClickListener(this);
-        eraseDrawingTextView.setOnClickListener(this);
+//        eraseDrawingTextView.setOnClickListener(this);
         clearAllTextView.setOnClickListener(this);
-        clearAllTextTextView.setOnClickListener(this);
         goToNextTextView.setOnClickListener(this);
 
         colorPickerColors = new ArrayList<>();
@@ -208,6 +209,13 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
 //        }.start();
     }
 
+    private void setImage(String path) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 1;
+        Bitmap bitmap = BitmapFactory.decodeFile(path, options);
+
+        photoEditImageView.setImageBitmap(bitmap);
+    }
     private boolean stringIsNotEmpty(String string) {
         return string != null && !string.equals("null") && !string.trim().equals("");
     }
@@ -232,13 +240,13 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         photoEditorSDK.clearAllViews();
     }
 
-    private void undoViews() {
-        photoEditorSDK.viewUndo();
-    }
+//    private void undoViews() {
+//        photoEditorSDK.viewUndo();
+//    }
 
-    private void eraseDrawing() {
-        photoEditorSDK.brushEraser();
-    }
+//    private void eraseDrawing() {
+//        photoEditorSDK.brushEraser();
+//    }
 
     private void openAddTextPopupWindow(String text, int colorCode) {
         colorCodeTextView = colorCode;
@@ -296,7 +304,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
             updateView(View.GONE);
             drawingViewColorPickerRecyclerView.setVisibility(View.VISIBLE);
             doneDrawingTextView.setVisibility(View.VISIBLE);
-            eraseDrawingTextView.setVisibility(View.VISIBLE);
+//            eraseDrawingTextView.setVisibility(View.VISIBLE);
             LinearLayoutManager layoutManager = new LinearLayoutManager(PhotoEditorActivity.this, LinearLayoutManager.HORIZONTAL, false);
             drawingViewColorPickerRecyclerView.setLayoutManager(layoutManager);
             drawingViewColorPickerRecyclerView.setHasFixedSize(true);
@@ -312,7 +320,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
             updateView(View.VISIBLE);
             drawingViewColorPickerRecyclerView.setVisibility(View.GONE);
             doneDrawingTextView.setVisibility(View.GONE);
-            eraseDrawingTextView.setVisibility(View.GONE);
+//            eraseDrawingTextView.setVisibility(View.GONE);
         }
     }
 
@@ -338,6 +346,10 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         }.start();
     }
 
+    private void beginCropping() {
+        CropImage.activity(Uri.fromFile(new File(selectedImagePath))).start(this);
+    }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.close_tv) {
@@ -350,16 +362,18 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
             updateBrushDrawingView(true);
         } else if (v.getId() == R.id.done_drawing_tv) {
             updateBrushDrawingView(false);
-        } else if (v.getId() == R.id.save_tv || v.getId() == R.id.save_text_tv) {
+        } else if (v.getId() == R.id.save_tv) {
             returnBackWithSavedImage();
-        } else if (v.getId() == R.id.clear_all_tv || v.getId() == R.id.clear_all_text_tv) {
+        } else if (v.getId() == R.id.clear_all_tv) {
             clearAllViews();
-        } else if (v.getId() == R.id.undo_text_tv || v.getId() == R.id.undo_tv) {
-            undoViews();
-        } else if (v.getId() == R.id.erase_drawing_tv) {
-            eraseDrawing();
+//        } else if (v.getId() == R.id.undo_text_tv || v.getId() == R.id.undo_tv) {
+//            undoViews();
+//        } else if (v.getId() == R.id.erase_drawing_tv) {
+//            eraseDrawing();
         } else if (v.getId() == R.id.go_to_next_screen_tv) {
             returnBackWithSavedImage();
+        } else if (v.getId() == R.id.crop_tv) {
+            beginCropping();
         }
     }
 
@@ -370,33 +384,33 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onAddViewListener(ViewType viewType, int numberOfAddedViews) {
-        if (numberOfAddedViews > 0) {
-            undoTextView.setVisibility(View.VISIBLE);
-            undoTextTextView.setVisibility(View.VISIBLE);
-        }
-        switch (viewType) {
-            case BRUSH_DRAWING:
-                Log.i("BRUSH_DRAWING", "onAddViewListener");
-                break;
-            case EMOJI:
-                Log.i("EMOJI", "onAddViewListener");
-                break;
-            case IMAGE:
-                Log.i("IMAGE", "onAddViewListener");
-                break;
-            case TEXT:
-                Log.i("TEXT", "onAddViewListener");
-                break;
-        }
+//        if (numberOfAddedViews > 0) {
+//            undoTextView.setVisibility(View.VISIBLE);
+//            undoTextTextView.setVisibility(View.VISIBLE);
+//        }
+//        switch (viewType) {
+//            case BRUSH_DRAWING:
+//                Log.i("BRUSH_DRAWING", "onAddViewListener");
+//                break;
+//            case EMOJI:
+//                Log.i("EMOJI", "onAddViewListener");
+//                break;
+//            case IMAGE:
+//                Log.i("IMAGE", "onAddViewListener");
+//                break;
+//            case TEXT:
+//                Log.i("TEXT", "onAddViewListener");
+//                break;
+//        }
     }
 
     @Override
     public void onRemoveViewListener(int numberOfAddedViews) {
-        Log.i(TAG, "onRemoveViewListener");
-        if (numberOfAddedViews == 0) {
-            undoTextView.setVisibility(View.GONE);
-            undoTextTextView.setVisibility(View.GONE);
-        }
+//        Log.i(TAG, "onRemoveViewListener");
+//        if (numberOfAddedViews == 0) {
+//            undoTextView.setVisibility(View.GONE);
+//            undoTextTextView.setVisibility(View.GONE);
+//        }
     }
 
     @Override
@@ -432,6 +446,21 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
             case TEXT:
                 Log.i("TEXT", "onStopViewChangeListener");
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                setImage(resultUri.getPath());
+            }
+            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                Log.d(TAG, error.getMessage());
+            }
         }
     }
 
