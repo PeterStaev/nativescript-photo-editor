@@ -1,0 +1,5 @@
+dependencies {
+    def supportVer = project.hasProperty("suppoertVersion") ? supportVersion : "+";
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.7.0@aar'
+    compile "com.android.support:exifinterface:$supportVer"
+}
