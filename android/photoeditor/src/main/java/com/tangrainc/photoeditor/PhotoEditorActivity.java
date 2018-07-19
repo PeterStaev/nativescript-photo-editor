@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -329,13 +330,12 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-        parentImageRelativeLayout.setLayoutParams(layoutParams);
-        new CountDownTimer(1000, 500) {
-            public void onTick(long millisUntilFinished) {
 
-            }
+        parentImageRelativeLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Log.d(TAG, "onGlobalLayout");
 
-            public void onFinish() {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageName = "IMG_" + timeStamp + ".jpg";
                 Intent returnIntent = new Intent();
@@ -343,7 +343,8 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
-        }.start();
+        });
+        parentImageRelativeLayout.setLayoutParams(layoutParams);
     }
 
     private void beginCropping() {
