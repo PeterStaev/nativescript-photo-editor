@@ -79,6 +79,10 @@ matrix:
       language: node_js 
       node_js: "8"
       jdk: oraclejdk8
+      before_install:
+        - pip install --upgrade pip
+        - pip install --user --upgrade matplotlib
+        - pip install six
       script: "grunt ci:webpack:ios"
 
     - stage: deploy
