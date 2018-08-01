@@ -47,9 +47,9 @@ matrix:
     - stage: build
       os: osx
       env: 
-        - iOS="10.3"
-        - Xcode="8.3"
-      osx_image: xcode8.3
+        - iOS="11.4"
+        - Xcode="9.4"
+      osx_image: xcode9.4
       language: node_js 
       node_js: "6"
       jdk: oraclejdk8
@@ -68,10 +68,10 @@ matrix:
     - stage: webpack
       os: osx
       env: 
-        - iOS="10.3"
-        - Xcode="8.3"
+        - iOS="11.4"
+        - Xcode="9.4"
         - Platform="iOS"
-      osx_image: xcode8.3
+      osx_image: xcode9.4
       language: node_js 
       node_js: "6"
       jdk: oraclejdk8
