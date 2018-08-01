@@ -1,104 +1,94 @@
 sudo: false
-
 android:
   components:
-    - tools
-    - platform-tools
-    - build-tools-27.0.3
-    - android-23
-    - android-27
-    - extra-android-m2repository
-
+  - tools
+  - platform-tools
+  - build-tools-27.0.3
+  - android-23
+  - android-27
+  - extra-android-m2repository
 before_cache:
-    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock 
-
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
-    directories:
-        - .nvm
-        - $HOME/.gradle/caches/
-        - $HOME/.gradle/wrapper/
-
+  directories:
+  - ".nvm"
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 install:
-    - echo no | npm install -g nativescript
-    - tns usage-reporting disable
-    - tns error-reporting disable
-    - echo no | npm install -g grunt-cli
-    - npm install
-    - grunt compile
-
+- echo no | npm install -g nativescript
+- tns usage-reporting disable
+- tns error-reporting disable
+- echo no | npm install -g grunt-cli
+- npm install
+- grunt compile
 matrix:
   include:
-    - stage: lint
-      language: android
-      jdk: oraclejdk8
-      os: linux
-      before_install: nvm install 8.11.3
-      script: grunt lint
-
-    - stage: build
-      language: android
-      os: linux
-      env: 
-        - Android="26"
-      jdk: oraclejdk8
-      before_install: nvm install 8.11.3
-      script: "grunt ci:build:android"
-
-    - stage: build
-      os: osx
-      env: 
-        - iOS="11.4"
-        - Xcode="9.4"
-      osx_image: xcode9.4
-      language: node_js 
-      node_js: "8"
-      jdk: oraclejdk8
-      before_install:
-        - pip install --upgrade pip
-        - pip install --user --upgrade matplotlib
-        - pip install six
-      script: "grunt ci:build:ios"
-
-    - stage: webpack
-      language: android
-      os: linux
-      env:
-        - Android="26"
-        - Platform="Android"
-      jdk: oraclejdk8
-      before_install: nvm install 8.11.3
-      script: "grunt ci:webpack:android"
-    
-    - stage: webpack
-      os: osx
-      env: 
-        - iOS="11.4"
-        - Xcode="9.4"
-        - Platform="iOS"
-      osx_image: xcode9.4
-      language: node_js 
-      node_js: "8"
-      jdk: oraclejdk8
-      before_install:
-        - pip install --upgrade pip
-        - pip install --user --upgrade matplotlib
-        - pip install six
-      script: "grunt ci:webpack:ios"
-
-    - stage: deploy
-      if: branch = release
-      language: android
-      jdk: oraclejdk8
-      os: linux
-      before_install: nvm install 8.11.3
-      script: skip
-      before_deploy:
-          - cd bin/dist
-      deploy:
-        provider: npm
-        email: "peter@tangrasoft.com"
-        api_key:
-          secure: "Zul6H2O77yD9cOs92GbrFt6I/OeK9k2OLcJjQgkK0J+/s44xt2QTPLu9P8O6ikz33MOA7bIHhHvUVjSd8I/6Ni0+InoABGbE4B3z4D9GqX+xyWTW0QhbSdteErtGtJ5MLGjZADSlu/X33x9mAVTiywAGGChUMgRWHx8esuyvhHsIQBVjP35FqaM/5dutbYsXttAc7xTGZTsLdnySFJnLLo8OygDswqkIs2NPldAcOXWOrc7P3aHeP3q6QlobQ7ySOKZHTfUhVeR0oFTJXp5y166wACWuPx9h+ignM/m+quzPcG5QHCDW7KGoTsQo480PJIT/vjnOzLElOXoL57LXNrXOofzjFw/OMx3SCTNSlPUqMz19ugfeLnuW1Nh8vigBg12p00XOchs9T/c6jyJavj7w3KFOHCQlBDwtfjKYKAgxCm1k3sbWXrkSOHoPKd1Rk5OTH+HxSFvgVxhRpqJz8I6w5DX/hR/hg0ts1kvSUshOWorGnPoYEORvPmP65lQA7pOkDdACSWZEO+lPExVfjE3j+MAvjUe/zsxvdHSdLkyqvpl5rS2MNZQyVF0N+1/gCfefTTHWySniyuJGOp20tieG8v03y6S0VUT3WITkFN4DDxmp8PsXILeMQRvMEnlYJbylFYRhT/yBlc7J0AKdNQneAt/neZ+M+nCgh1WtEFo="
-        skip_cleanup: true
-        on:
-          branch: release
+  - stage: lint
+    language: android
+    jdk: oraclejdk8
+    os: linux
+    before_install: nvm install 8.11.3
+    script: grunt lint
+  - stage: build
+    language: android
+    os: linux
+    env:
+    - Android="26"
+    jdk: oraclejdk8
+    before_install: nvm install 8.11.3
+    script: grunt ci:build:android
+  - stage: build
+    os: osx
+    env:
+    - iOS="11.4"
+    - Xcode="9.4"
+    osx_image: xcode9.4
+    language: node_js
+    node_js: '8'
+    jdk: oraclejdk8
+    before_install:
+    - pip install --upgrade pip
+    - pip install --user --upgrade matplotlib
+    - pip install six
+    script: grunt ci:build:ios
+  - stage: webpack
+    language: android
+    os: linux
+    env:
+    - Android="26"
+    - Platform="Android"
+    jdk: oraclejdk8
+    before_install: nvm install 8.11.3
+    script: grunt ci:webpack:android
+  - stage: webpack
+    os: osx
+    env:
+    - iOS="11.4"
+    - Xcode="9.4"
+    - Platform="iOS"
+    osx_image: xcode9.4
+    language: node_js
+    node_js: '8'
+    jdk: oraclejdk8
+    before_install:
+    - pip install --upgrade pip
+    - pip install --user --upgrade matplotlib
+    - pip install six
+    script: grunt ci:webpack:ios
+  - stage: deploy
+    if: branch = release
+    language: android
+    jdk: oraclejdk8
+    os: linux
+    before_install: nvm install 8.11.3
+    script: skip
+    before_deploy:
+    - cd bin/dist
+    deploy:
+      provider: npm
+      email: peter@tangrasoft.com
+      api_key:
+        secure: "J5sK7bCFTa2wOk7QpcdXgviDxz9RhWNQlAnbCMI4avaj7IEMUekfo3TGag48M2PDVXvlRt3wOKMlZLfg/AzVBqq4LqEC6n+ofL5djdriQwCV7SwpF15QkcuWRM5N2soNAy8rnrafzoHnCQvIhz/dQSjkp5tlXPp8vbufz4A9o4Z90C4MfLf6pJFFwuyJFzOGYprGVFggrbVODWdnwnJRl/x6SYwtHSXWVjJ+Ww9wwp+VCjUg0cx9wHBg/XlzFVFd0VN12v3W9GOI0cWh88wKuiWKZIU3oOlhup1FSzJhVMQGELsjPjbqxjf2GsfPRf1VMMv0tGaDivt23eJoWVffgBXrx8ZRWp8sJRyjS/iiwVl8oY4h/uVibABcf7DdUmmI5/aVwdODpGj+AnQtvPzAxTu8etQtDwq52GR1QbEloLPf7jv8zNiTD00+XoWeAt2BlyCdhqDZtO3F2iZTv1wByrPBuTzH+tgeIKwoyntJjYdQf99nQAlvF/S6yxRtHajuXwEo0aw14MstLte/O08ChJ0mDyaMhqw4Wd4mtI32NxqlWnOcNxbUFsiYmKZgHdgNj+mYVoFweNjxRU1T4VVvIXvCbuzbG8Q3wJAcZoyDBXcxfvhXHgUunlV4aRSXoNA3oNhmPVcVHN9aBwAKis0cBQ5K2bseMWDFLZSeUSO6Et4="
+      skip_cleanup: true
+      on:
+        branch: release
