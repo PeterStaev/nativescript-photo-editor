@@ -8,11 +8,9 @@
     <application>
 
         <activity
-            android:name="com.tangrainc.photoeditor.PhotoEditorActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.tangrainc.photoeditor.PhotoEditorActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
 
     </application>
