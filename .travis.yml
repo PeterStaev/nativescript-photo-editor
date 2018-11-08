@@ -3,9 +3,10 @@ android:
   components:
   - tools
   - platform-tools
+  - build-tools-27.0.3 # needed for native src android compile
   - build-tools-28.0.3
   - android-23
-  - android-27
+  - android-27 # needed for native src android compile
   - android-28
   - extra-android-m2repository
 before_cache:
