@@ -1,5 +1,5 @@
 platform :ios, '9.0'
-pod 'iOSPhotoEditor', :git => 'https://github.com/PeterStaev/photo-editor.git', :branch => 'nativescript'
+pod 'iOSPhotoEditor', :git => 'https://github.com/PeterStaev/photo-editor.git', :commit => '60b8dbb984d7a58f513529d7194557b8d5108057'
 # pod 'iOSPhotoEditor', :path => '~/Documents/MiscProjects/photo-editor-ios'
 
 post_install do |installer|
