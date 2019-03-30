@@ -1,6 +1,6 @@
 {
   "name": "nativescript-photo-editor",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A NativeScript plugin for editing your photos (crop, draw, add text, etc.)",
   "main": "photo-editor",
   "typings": "photo-editor.d.ts",
