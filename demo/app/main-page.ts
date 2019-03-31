@@ -17,7 +17,7 @@ export function editImage() {
     const photoEditor = new PhotoEditor();
     const imageSource = fromFileOrResource("~/test-image.jpg");
 
-    console.log("ORIG IMAGE: ", imageSource.height, imageSource.width)
+    console.log("ORIG IMAGE: ", imageSource.height, imageSource.width);
 
     photoEditor.editPhoto({
         imageSource: imageSource, // originalImage.imageSource,
@@ -28,7 +28,7 @@ export function editImage() {
             // PhotoEditorControl.Text,
         ],
     }).then((newImage: ImageSource) => {
-        console.log("NEW IMAGE: ", newImage.height, newImage.width)
+        console.log("NEW IMAGE: ", newImage.height, newImage.width);
         resultImage.imageSource = newImage;
     }).catch((e) => {
         console.error(e);

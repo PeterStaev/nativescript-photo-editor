@@ -9,37 +9,13 @@ declare class CropView extends UIView implements UIGestureRecognizerDelegate, UI
 
 	static appearanceForTraitCollectionWhenContainedIn(trait: UITraitCollection, ContainerClass: typeof NSObject): CropView; // inherited from UIAppearance
 
-	static appearanceForTraitCollectionWhenContainedInInstancesOfClasses(trait: UITraitCollection, containerTypes: NSArray<typeof NSObject>): CropView; // inherited from UIAppearance
+	static appearanceForTraitCollectionWhenContainedInInstancesOfClasses(trait: UITraitCollection, containerTypes: NSArray<typeof NSObject> | typeof NSObject[]): CropView; // inherited from UIAppearance
 
 	static appearanceWhenContainedIn(ContainerClass: typeof NSObject): CropView; // inherited from UIAppearance
 
-	static appearanceWhenContainedInInstancesOfClasses(containerTypes: NSArray<typeof NSObject>): CropView; // inherited from UIAppearance
+	static appearanceWhenContainedInInstancesOfClasses(containerTypes: NSArray<typeof NSObject> | typeof NSObject[]): CropView; // inherited from UIAppearance
 
 	static new(): CropView; // inherited from NSObject
-
-	cropAspectRatio: number;
-
-	cropRect: CGRect;
-
-	readonly croppedImage: UIImage;
-
-	image: UIImage;
-
-	imageCropRect: CGRect;
-
-	imageView: UIView;
-
-	keepAspectRatio: boolean;
-
-	resizeEnabled: boolean;
-
-	readonly rotation: CGAffineTransform;
-
-	rotationAngle: number;
-
-	rotationGestureRecognizer: UIRotationGestureRecognizer;
-
-	showCroppedArea: boolean;
 
 	readonly debugDescription: string; // inherited from NSObjectProtocol
 
@@ -51,7 +27,7 @@ declare class CropView extends UIView implements UIGestureRecognizerDelegate, UI
 
 	readonly superclass: typeof NSObject; // inherited from NSObjectProtocol
 
-	readonly  // inherited from NSObjectProtocol
+	readonly;  // inherited from NSObjectProtocol
 
 	class(): typeof NSObject;
 
@@ -80,10 +56,6 @@ declare class CropView extends UIView implements UIGestureRecognizerDelegate, UI
 	performSelectorWithObject(aSelector: string, object: any): any;
 
 	performSelectorWithObjectWithObject(aSelector: string, object1: any, object2: any): any;
-
-	resetCropRect(): void;
-
-	resetCropRectAnimated(animated: boolean): void;
 
 	respondsToSelector(aSelector: string): boolean;
 
@@ -117,11 +89,7 @@ declare class CropView extends UIView implements UIGestureRecognizerDelegate, UI
 
 	self(): this;
 
-	setRotationAngleSnap(rotationAngle: number, snap: boolean): void;
-
 	viewForZoomingInScrollView(scrollView: UIScrollView): UIView;
-
-	zoomedCropRect(): CGRect;
 }
 
 declare class CropViewController extends UIViewController {
@@ -129,28 +97,6 @@ declare class CropViewController extends UIViewController {
 	static alloc(): CropViewController; // inherited from NSObject
 
 	static new(): CropViewController; // inherited from NSObject
-
-	cropAspectRatio: number;
-
-	cropRect: CGRect;
-
-	image: UIImage;
-
-	imageCropRect: CGRect;
-
-	keepAspectRatio: boolean;
-
-	rotationEnabled: boolean;
-
-	readonly rotationTransform: CGAffineTransform;
-
-	toolbarHidden: boolean;
-
-	readonly zoomedCropRect: CGRect;
-
-	resetCropRect(): void;
-
-	resetCropRectAnimated(animated: boolean): void;
 }
 
 interface PhotoEditorDelegate {
@@ -172,7 +118,7 @@ declare class PhotoEditorViewController extends UIViewController implements UIGe
 
 	colors: NSArray<UIColor>;
 
-	hiddenControls: Array<control>;
+	hiddenControls: NSArray<number>;
 
 	image: UIImage;
 
@@ -190,15 +136,11 @@ declare class PhotoEditorViewController extends UIViewController implements UIGe
 
 	readonly superclass: typeof NSObject; // inherited from NSObjectProtocol
 
-	readonly  // inherited from NSObjectProtocol
+	readonly;  // inherited from NSObjectProtocol
 
 	class(): typeof NSObject;
 
 	conformsToProtocol(aProtocol: any /* Protocol */): boolean;
-
-	cropViewControllerDidCancel(controller: CropViewController): void;
-
-	cropViewControllerDidFinishCroppingImageTransformCropRect(controller: CropViewController, image: UIImage, transform: CGAffineTransform, cropRect: CGRect): void;
 
 	gestureRecognizerShouldBeRequiredToFailByGestureRecognizer(gestureRecognizer: UIGestureRecognizer, otherGestureRecognizer: UIGestureRecognizer): boolean;
 
